@@ -1,0 +1,89 @@
+/* 获奖经历页面样式 - 已合并到base.css */
+
+/* 获奖等级徽章样式 */
+.award-badge {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* 获奖项目悬停效果 */
+.award-item:hover .view-certificate {
+    color: #ff6b35 !important;
+    font-weight: bold;
+}
+
+/* 自我评价样式 */
+.self-evaluation {
+    position: relative;
+    overflow: hidden;
+}
+
+.self-evaluation::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* 模态框样式优化 */
+#awardModal {
+    backdrop-filter: blur(5px);
+}
+
+#awardModal img {
+    transition: transform 0.3s ease;
+}
+
+#awardModal img:hover {
+    transform: scale(1.02);
+}
+
+/* 响应式模态框 */
+@media screen and (max-width: 768px) {
+    #awardModal > div {
+        margin: 1% auto !important;
+        width: 95% !important;
+        height: 95% !important;
+    }
+    
+    #awardModal img {
+        max-height: 80% !important;
+    }
+    
+    #awardModal p {
+        font-size: 16px !important;
+        margin-top: 10px !important;
+    }
+}
+
+@media screen and (max-height: 600px) {
+    #awardModal > div {
+        margin: 1% auto !important;
+        height: 98% !important;
+    }
+    
+    #awardModal img {
+        max-height: 75% !important;
+    }
+    
+    #awardModal p {
+        font-size: 14px !important;
+        margin-top: 8px !important;
+    }
+}
+
+/* 联系方式页面样式 - 已合并到base.css */
