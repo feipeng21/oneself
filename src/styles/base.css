@@ -6,6 +6,7 @@
   left: 0;
   top: 0;
   width: 300px;
+  max-width: min(300px, 100vw);
   height: 100vh;
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
@@ -15,6 +16,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 @keyframes sidebarSlideIn {
@@ -194,8 +196,23 @@ html {
 }
 
 /* 隐藏IE/Edge滚动条 */
-body {
-  -ms-overflow-style: none;
+@media (max-width: 900px) {
+  .fixed-sidebar {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 107, 53, 0.3);
+  }
+
+  .sidebar-content {
+    padding: 92px 16px 16px;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
 }
 .glass-card {
   background: rgba(255, 255, 255, 0.08);
@@ -327,10 +344,10 @@ body {
     width: 0;
   }
   50% {
-    width: 18ch;
+    width: 22ch;
   }
   100% {
-    width: 18ch;
+    width: 22ch;
   }
 }
 @keyframes blink-caret {

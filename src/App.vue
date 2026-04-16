@@ -10,6 +10,19 @@
     <div id="video-audio-control"><button id="audio-toggle-btn" @click="toggleAudio"><i class="audio-icon">{{ playing ?
       '🔊' : '🎵' }}</i><span class="audio-text">{{ playing ? '暂停音乐' : '播放音乐' }}</span></button></div>
 
+    <transition name="music-prompt-fade">
+      <div v-if="musicPrompt" class="music-prompt-mask" @click.self="handleMusicPromptConfirm">
+        <div class="music-prompt-card">
+          <div class="music-prompt-badge">MUSIC</div>
+          <h3>背景音乐待开启</h3>
+          <p>浏览器已拦截自动播放，点击下方按钮即可开启本站背景音乐。</p>
+          <div class="music-prompt-actions">
+            <button class="music-prompt-btn primary" @click="handleMusicPromptConfirm">打开音乐</button>
+          </div>
+        </div>
+      </div>
+    </transition>
+
     <div id="wrap">
       <SidebarPanel :profile="cfg.page7" @open-html="openHtml" />
 
@@ -74,6 +87,7 @@ import HtmlModal from './components/modals/HtmlModal.vue';
 const scrolled = ref(false);
 const active = ref('page1');
 const playing = ref(false);
+const musicPrompt = ref(false);
 const award = ref({ open: false, image: '', title: '' });
 const html = ref({ open: false, title: '', content: '' });
 const video = ref(null);
@@ -88,12 +102,17 @@ const tryAutoPlayAudio = async () => {
   if (!target) return false;
   try {
     await target.play();
+    musicPrompt.value = false;
     syncPlayState();
     return true;
   } catch {
+    musicPrompt.value = true;
     syncPlayState();
     return false;
   }
+};
+const handleMusicPromptConfirm = async () => {
+  await tryAutoPlayAudio();
 };
 const toggleAudio = async () => {
   const target = audio.value;
@@ -102,6 +121,7 @@ const toggleAudio = async () => {
     await tryAutoPlayAudio();
   } else {
     target.pause();
+    musicPrompt.value = false;
     syncPlayState();
   }
 };
@@ -165,6 +185,102 @@ onBeforeUnmount(() => {
   font-display: swap;
 }
 
+.music-prompt-fade-enter-active,
+.music-prompt-fade-leave-active {
+  transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+.music-prompt-fade-enter-from,
+.music-prompt-fade-leave-to {
+  opacity: 0;
+}
+
+.music-prompt-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.music-prompt-card {
+  width: min(420px, 100%);
+  padding: 28px 24px;
+  border-radius: 24px;
+  border: 1px solid rgba(75, 211, 255, 0.3);
+  background:
+    radial-gradient(circle at top, rgba(72, 187, 255, 0.22), transparent 55%),
+    linear-gradient(145deg, rgba(7, 17, 30, 0.96), rgba(14, 30, 46, 0.92));
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  color: #f5fbff;
+  text-align: center;
+}
+
+.music-prompt-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 84px;
+  margin-bottom: 14px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(92, 219, 255, 0.14);
+  border: 1px solid rgba(92, 219, 255, 0.32);
+  color: #73e0ff;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+}
+
+.music-prompt-card h3 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.music-prompt-card p {
+  margin: 14px 0 0;
+  color: rgba(235, 247, 255, 0.78);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.music-prompt-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.music-prompt-btn {
+  min-width: 124px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.music-prompt-btn:hover {
+  transform: translateY(-1px);
+}
+
+.music-prompt-btn.primary {
+  background: linear-gradient(135deg, #4ad9ff, #2d8cff);
+  box-shadow: 0 12px 28px rgba(45, 140, 255, 0.32);
+  color: #02111d;
+}
+
+.music-prompt-btn.ghost {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f5fbff;
+}
+
 .modal-mask {
   position: fixed;
   inset: 0;
@@ -197,5 +313,24 @@ onBeforeUnmount(() => {
   color: #fff;
   font-size: 28px;
   cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .music-prompt-card {
+    padding: 24px 18px;
+    border-radius: 20px;
+  }
+
+  .music-prompt-card h3 {
+    font-size: 24px;
+  }
+
+  .music-prompt-actions {
+    flex-direction: column;
+  }
+
+  .music-prompt-btn {
+    width: 100%;
+  }
 }
 </style>

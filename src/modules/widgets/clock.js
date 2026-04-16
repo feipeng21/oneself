@@ -3,36 +3,36 @@
  * 显示实时时间和日期
  */
 class Clock {
-    constructor(containerId, options = {}) {
-        this.containerId = containerId;
-        this.container = document.getElementById(containerId);
-        this.options = {
-            showSeconds: true,
-            showDate: true,
-            format24: true,
-            updateInterval: 1000,
-            ...options
-        };
-        
-        this.formattedTime = '';
-        this.formattedDate = '';
-        this.intervalId = null;
-        
-        this.init();
+  constructor(containerId, options = {}) {
+    this.containerId = containerId;
+    this.container = document.getElementById(containerId);
+    this.options = {
+      showSeconds: true,
+      showDate: true,
+      format24: true,
+      updateInterval: 1000,
+      ...options,
+    };
+
+    this.formattedTime = "";
+    this.formattedDate = "";
+    this.intervalId = null;
+
+    this.init();
+  }
+
+  init() {
+    if (!this.container) {
+      console.error(`Clock container with id "${this.containerId}" not found`);
+      return;
     }
-    
-    init() {
-        if (!this.container) {
-            console.error(`Clock container with id "${this.containerId}" not found`);
-            return;
-        }
-        
-        this.createClockHTML();
-        this.startClock();
-    }
-    
-    createClockHTML() {
-        this.container.innerHTML = `
+
+    this.createClockHTML();
+    this.startClock();
+  }
+
+  createClockHTML() {
+    this.container.innerHTML = `
             <div class="clock-widget" style="
                 background: rgba(255, 255, 255, 0.15);
                 backdrop-filter: blur(20px);
@@ -110,13 +110,11 @@ class Clock {
                                     <circle cx="4" cy="4" r="1" fill="#ffff00" opacity="0.8"/>
                                 </pattern>
                             </defs>
-                            <g id="out2" style="animation: rotate16 7s ease-in-out infinite alternate; transform-origin: center;">
-                                <!-- 动态青色圆环 - 实心带径向渐变 -->
-                                <circle cx="172" cy="172" r="95" fill="none" stroke="url(#radialCyan)" stroke-width="3" opacity="0.8" filter="drop-shadow(0 0 6px #00ffff)"/>
-                                <!-- 动态黄色圆环 - 点状图案 -->
-                                <circle cx="172" cy="172" r="60" fill="none" stroke="url(#dots)" stroke-width="2" opacity="0.9" filter="drop-shadow(0 0 4px #ffff00)"/>
-                                <!-- 动态青色圆环 - 波浪线 -->
-                                <path d="M 127 172 A 45 45 0 1 1 127.1 172" fill="none" stroke="#00ffff" stroke-width="2" opacity="0.7" filter="drop-shadow(0 0 3px #00ffff)" stroke-dasharray="8 4"/>
+                            <g id="out2" style="animation: rotate16 10s linear infinite; transform-origin: center;">
+                                <!-- 三个大小不一样的圆环 -->
+                                <circle cx="172" cy="172" r="92" fill="none" stroke="url(#radialCyan)" stroke-width="3" opacity="0.8" filter="drop-shadow(0 0 6px #00ffff)"/>
+                                <circle cx="172" cy="172" r="72" fill="none" stroke="#ffff00" stroke-width="2.5" stroke-dasharray="6 8" opacity="0.9" filter="drop-shadow(0 0 4px #ffff00)"/>
+                                <circle cx="172" cy="172" r="48" fill="none" stroke="#00ffff" stroke-width="2" stroke-dasharray="10 6" opacity="0.85" filter="drop-shadow(0 0 4px #00ffff)"/>
                             </g>
                         </svg>
                         <svg style="--i:0;--j:2; position: absolute; transition: .5s; z-index: 0.6; transform-origin: center; width: 344px; height: 344px; fill: none;">
@@ -236,72 +234,82 @@ class Clock {
                 }
             </style>
         `;
+  }
+
+  getFormattedTime(currentDate) {
+    return currentDate
+      .toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: this.options.showSeconds ? "2-digit" : undefined,
+        hour12: !this.options.format24,
+      })
+      .replace(/:/g, " : ");
+  }
+
+  getFormattedDate(currentDate) {
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const day = String(currentDate.getDate()).padStart(2, "0");
+    const weekday = [
+      "星期日",
+      "星期一",
+      "星期二",
+      "星期三",
+      "星期四",
+      "星期五",
+      "星期六",
+    ][currentDate.getDay()];
+
+    return `${year} 年 ${month} 月 ${day} 日 ${weekday}`;
+  }
+
+  updateClock() {
+    const now = new Date();
+    this.formattedTime = this.getFormattedTime(now);
+    this.formattedDate = this.getFormattedDate(now);
+
+    const timeElement = this.container.querySelector(".clock-time");
+    const dateElement = this.container.querySelector(".clock-date");
+
+    if (timeElement) {
+      timeElement.textContent = this.formattedTime;
     }
-    
-    getFormattedTime(currentDate) {
-        return currentDate.toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: this.options.showSeconds ? '2-digit' : undefined,
-            hour12: !this.options.format24,
-        }).replace(/:/g, ' : ');
+    if (dateElement) {
+      dateElement.textContent = this.formattedDate;
     }
-    
-    getFormattedDate(currentDate) {
-        const year = currentDate.getFullYear();
-        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-        const day = String(currentDate.getDate()).padStart(2, '0');
-        const weekday = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][currentDate.getDay()];
-        
-        return `${year} 年 ${month} 月 ${day} 日 ${weekday}`;
+  }
+
+  startClock() {
+    this.updateClock(); // 立即更新一次
+    this.intervalId = setInterval(() => {
+      this.updateClock();
+    }, this.options.updateInterval);
+  }
+
+  stopClock() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
     }
-    
-    updateClock() {
-        const now = new Date();
-        this.formattedTime = this.getFormattedTime(now);
-        this.formattedDate = this.getFormattedDate(now);
-        
-        const timeElement = this.container.querySelector('.clock-time');
-        const dateElement = this.container.querySelector('.clock-date');
-        
-        if (timeElement) {
-            timeElement.textContent = this.formattedTime;
-        }
-        if (dateElement) {
-            dateElement.textContent = this.formattedDate;
-        }
+  }
+
+  destroy() {
+    this.stopClock();
+    if (this.container) {
+      this.container.innerHTML = "";
     }
-    
-    startClock() {
-        this.updateClock(); // 立即更新一次
-        this.intervalId = setInterval(() => {
-            this.updateClock();
-        }, this.options.updateInterval);
-    }
-    
-    stopClock() {
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
-        }
-    }
-    
-    destroy() {
-        this.stopClock();
-        if (this.container) {
-            this.container.innerHTML = '';
-        }
-    }
-    
-    // 获取当前时间字符串（供外部使用）
-    getCurrentTime() {
-        return this.formattedTime;
-    }
-    
-    // 获取当前日期字符串（供外部使用）
-    getCurrentDate() {
-        return this.formattedDate;
-    }
+  }
+
+  // 获取当前时间字符串（供外部使用）
+  getCurrentTime() {
+    return this.formattedTime;
+  }
+
+  // 获取当前日期字符串（供外部使用）
+  getCurrentDate() {
+    return this.formattedDate;
+  }
 }
 
 // 导出到全局

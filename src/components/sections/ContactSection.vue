@@ -11,7 +11,9 @@
             <div class="contact-info">
               <p>电话：17803709890</p>
               <p>邮箱：1643380863@qq.com</p>
-              <p>期待与您的合作交流！</p>
+              <p>GitHub：github.com/feipeng21</p>
+              <p>方向：前端开发 / React Native / Vue / TypeScript</p>
+              <p>期待与您交流前端开发、实习与校招机会。</p>
             </div>
           </div>
         </div>
