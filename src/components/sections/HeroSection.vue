@@ -12,7 +12,8 @@
           <div id="typewriter-container" style="margin-top: 30px; min-height: 80px"></div>
         </div>
       </div>
-      <a class="next-bt navbtn" href="#next-one" @click.prevent="$emit('navigate', 'next-one')"><span>Read more</span></a>
+      <a class="next-bt navbtn" href="#next-one" @click.prevent="$emit('navigate', 'next-one')"><span>Read
+          more</span></a>
     </div>
   </section>
 </template>

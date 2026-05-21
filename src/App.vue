@@ -7,8 +7,13 @@
       <source :src="audioUrl" type="audio/mpeg" />
     </audio>
     <div id="bg-overlay"></div>
-    <div id="video-audio-control"><button id="audio-toggle-btn" @click="toggleAudio"><i class="audio-icon">{{ playing ?
-      '🔊' : '🎵' }}</i><span class="audio-text">{{ playing ? '暂停音乐' : '播放音乐' }}</span></button></div>
+    <div id="video-audio-control">
+      <button id="audio-toggle-btn" @click="toggleAudio">
+        <i class="audio-icon">{{ playing ?
+          '🔊' : '🎵' }}</i>
+        <span class="audio-text">{{ playing ? '暂停音乐' : '播放音乐' }}</span>
+      </button>
+    </div>
 
     <transition name="music-prompt-fade">
       <div v-if="musicPrompt" class="music-prompt-mask" @click.self="handleMusicPromptConfirm">
