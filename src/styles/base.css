@@ -1,4 +1,4 @@
-@import "./iconfont.css";
+﻿@import "./iconfont.css";
 
 /* 固定左侧边栏样式 */
 .fixed-sidebar {
@@ -773,7 +773,7 @@ html {
   background: linear-gradient(135deg, 
     rgba(255, 107, 53, 0.15), 
     rgba(0, 210, 211, 0.1));
-  transform: translateY(-3px);
+  transform: none;
   text-shadow: 0 2px 12px rgba(255, 107, 53, 0.4);
   box-shadow: 0 8px 25px rgba(255, 107, 53, 0.15),
               0 4px 10px rgba(0, 210, 211, 0.1);
@@ -3303,4 +3303,17 @@ html {
 
 #wrap .page7 .page3-box .row .box-page::before {
   background: transparent !important;
+}
+
+/* 顶部导航触碰时保持原位置和尺寸 */
+.nav-link {
+  border: 1px solid transparent;
+  box-sizing: border-box;
+}
+
+.nav-link:hover,
+.nav-link.active,
+.navbar-brand:hover .brand-subtitle,
+.navbar-toggle:hover {
+  transform: none !important;
 }
