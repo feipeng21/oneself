@@ -197,21 +197,34 @@ html {
 
 /* 隐藏IE/Edge滚动条 */
 @media (max-width: 900px) {
-  .fixed-sidebar {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    border-right: 0;
-    border-bottom: 1px solid rgba(255, 107, 53, 0.3);
-  }
-
-  .sidebar-content {
-    padding: 92px 16px 16px;
+  #wrap {
+    display: flex;
+    flex-direction: column;
   }
 
   .main-content {
+    order: 1;
     margin-left: 0;
+  }
+
+  .fixed-sidebar {
+    order: 2;
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: auto;
+    border-right: 0;
+    border-top: 1px solid rgba(255, 107, 53, 0.3);
+    border-bottom: 0;
+    z-index: 1;
+  }
+
+  .sidebar-content {
+    height: auto;
+    padding: 24px 16px 16px;
   }
 }
 .glass-card {
@@ -265,6 +278,148 @@ html {
   border: 1px solid rgba(0, 210, 211, 0.3);
   transform: translateY(-2px);
   box-shadow: 0 12px 40px rgba(0, 210, 211, 0.15);
+}
+
+.sidebar-section,
+.glass-card,
+.glass-card-primary,
+.glass-card-secondary,
+.text-card,
+#wrap .page .page-title,
+#wrap .page1 .page1-box .box-page,
+#wrap .page2 .page2-box .row .box-info h1,
+#wrap .page2 .page2-box .row .box-info p,
+#wrap .page3 .page3-box .row .box-item,
+#wrap .page4 .page3-box .row .box-right .singlelist .slist-item,
+#wrap .page4 .page3-box .row .box-left .left-body ul .desc,
+#wrap .page5 .page3-box .row .box-item,
+#wrap .page6 .page3-box .self-evaluation,
+#wrap .page6 .page3-box .award-item,
+#wrap .page6 .page3-box .ability-item,
+#wrap .page7 .page3-box .row .box-page,
+#wrap .page7 .page3-box .row .box-page .page-tag,
+#wrap .page7 .page3-box .row .box-page .page-tag li,
+#wrap .page7 .page3-box .row .box-page .contact-info,
+.sidebar-link,
+.social-icons li a,
+.social-btn,
+.search-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-section::after,
+.glass-card::after,
+.glass-card-primary::after,
+.glass-card-secondary::after,
+.text-card::after,
+#wrap .page .page-title::after,
+#wrap .page1 .page1-box .box-page::after,
+#wrap .page2 .page2-box .row .box-info h1::after,
+#wrap .page2 .page2-box .row .box-info p::after,
+#wrap .page3 .page3-box .row .box-item::after,
+#wrap .page4 .page3-box .row .box-right .singlelist .slist-item::after,
+#wrap .page4 .page3-box .row .box-left .left-body ul .desc::after,
+#wrap .page5 .page3-box .row .box-item::after,
+#wrap .page6 .page3-box .self-evaluation::after,
+#wrap .page6 .page3-box .award-item::after,
+#wrap .page6 .page3-box .ability-item::after,
+#wrap .page7 .page3-box .row .box-page::after,
+#wrap .page7 .page3-box .row .box-page .page-tag::after,
+#wrap .page7 .page3-box .row .box-page .page-tag li::after,
+#wrap .page7 .page3-box .row .box-page .contact-info::after,
+.sidebar-link::after,
+.social-icons li a::after,
+.social-btn::after,
+.search-container::after {
+  content: '';
+  position: absolute;
+  top: -40%;
+  left: -85%;
+  width: 55%;
+  height: 180%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 28%,
+    rgba(255, 255, 255, 0.38) 50%,
+    rgba(255, 255, 255, 0.08) 72%,
+    transparent 100%
+  );
+  transform: skewX(-24deg);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.sidebar-section:hover::after,
+.glass-card:hover::after,
+.glass-card-primary:hover::after,
+.glass-card-secondary:hover::after,
+.text-card:hover::after,
+#wrap .page .page-title:hover::after,
+#wrap .page1 .page1-box .box-page:hover::after,
+#wrap .page2 .page2-box .row .box-info h1:hover::after,
+#wrap .page2 .page2-box .row .box-info p:hover::after,
+#wrap .page3 .page3-box .row .box-item:hover::after,
+#wrap .page4 .page3-box .row .box-right .singlelist .slist-item:hover::after,
+#wrap .page4 .page3-box .row .box-left .left-body ul .desc:hover::after,
+#wrap .page5 .page3-box .row .box-item:hover::after,
+#wrap .page6 .page3-box .self-evaluation:hover::after,
+#wrap .page6 .page3-box .award-item:hover::after,
+#wrap .page6 .page3-box .ability-item:hover::after,
+#wrap .page7 .page3-box .row .box-page:hover::after,
+#wrap .page7 .page3-box .row .box-page .page-tag:hover::after,
+#wrap .page7 .page3-box .row .box-page .page-tag li:hover::after,
+#wrap .page7 .page3-box .row .box-page .contact-info:hover::after,
+.sidebar-link:hover::after,
+.social-icons li a:hover::after,
+.social-btn:hover::after,
+.search-container:hover::after {
+  animation: cardPolishSweep 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes cardPolishSweep {
+  0% {
+    left: -85%;
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  100% {
+    left: 125%;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-section:hover::after,
+  .glass-card:hover::after,
+  .glass-card-primary:hover::after,
+  .glass-card-secondary:hover::after,
+  .text-card:hover::after,
+  #wrap .page .page-title:hover::after,
+  #wrap .page1 .page1-box .box-page:hover::after,
+  #wrap .page2 .page2-box .row .box-info h1:hover::after,
+  #wrap .page2 .page2-box .row .box-info p:hover::after,
+  #wrap .page3 .page3-box .row .box-item:hover::after,
+  #wrap .page4 .page3-box .row .box-right .singlelist .slist-item:hover::after,
+  #wrap .page4 .page3-box .row .box-left .left-body ul .desc:hover::after,
+  #wrap .page5 .page3-box .row .box-item:hover::after,
+  #wrap .page6 .page3-box .self-evaluation:hover::after,
+  #wrap .page6 .page3-box .award-item:hover::after,
+  #wrap .page6 .page3-box .ability-item:hover::after,
+  #wrap .page7 .page3-box .row .box-page:hover::after,
+  #wrap .page7 .page3-box .row .box-page .page-tag:hover::after,
+  #wrap .page7 .page3-box .row .box-page .page-tag li:hover::after,
+  #wrap .page7 .page3-box .row .box-page .contact-info:hover::after,
+  .sidebar-link:hover::after,
+  .social-icons li a:hover::after,
+  .social-btn:hover::after,
+  .search-container:hover::after {
+    animation: none;
+  }
 }
 .text-card {
   background: rgba(0, 0, 0, 0.3);
@@ -2847,13 +3002,13 @@ html {
 /* 数字字体定义 */
 @font-face {
   font-family: "digitalfont";
-  src: url("../../public/fonts/Digital-Play-Italic-St-1.ttf");
+  src: url("/fonts/Digital-Play-Italic-St-1.ttf");
   font-display: swap;
 }
 
 @font-face {
   font-family: "Digital-Play";
-  src: url("../../public/fonts/Digital-Play-Italic-St-1.ttf");
+  src: url("/fonts/Digital-Play-Italic-St-1.ttf");
   font-display: swap;
 }
 
@@ -3084,4 +3239,68 @@ html {
   .clock-date {
     font-size: 0.8rem !important;
   }
+}
+
+/* 卡片透明化：取消毛玻璃和半透明底色 */
+.sidebar-section,
+.sidebar-section:hover,
+.glass-card,
+.glass-card:hover,
+.glass-card-primary,
+.glass-card-primary:hover,
+.glass-card-secondary,
+.glass-card-secondary:hover,
+.text-card,
+.text-card:hover,
+#wrap .page .page-title,
+#wrap .page .page-title:hover,
+#wrap .page1 .page1-box .box-page,
+#wrap .page1 .page1-box .box-page:hover,
+#wrap .page1 .page1-box .box-page .box-font,
+#wrap .page2 .page2-box .row .box-info h1,
+#wrap .page2 .page2-box .row .box-info p,
+#wrap .page2 .page2-box .row .box-info p:hover,
+#wrap .page2 .page2-box .row .box-info p:last-child,
+#wrap .page3 .page3-box .row .box-item,
+#wrap .page3 .page3-box .row .box-item:hover,
+#wrap .page3 .page3-box .row .box-item .box-info,
+#wrap .page3 .page3-box .row .box-item:hover .box-info,
+#wrap .page4 .page3-box .row .box-right .singlelist .slist-item,
+#wrap .page4 .page3-box .row .box-right .singlelist .slist-item:hover,
+#wrap .page4 .page3-box .row .box-left .left-body ul .desc,
+#wrap .page4 .page3-box .row .box-left .left-body ul .desc:hover,
+#wrap .page5 .page3-box .row .box-item .item-zhez,
+#wrap .page5 .page3-box .row .box-item .item-zhez P,
+#wrap .page6 .page3-box .self-evaluation,
+#wrap .page6 .page3-box .award-item,
+#wrap .page6 .page3-box .award-item:hover,
+#wrap .page6 .page3-box .ability-item,
+#wrap .page6 .page3-box .ability-item:hover,
+#wrap .page7 .page3-box .row .box-page,
+#wrap .page7 .page3-box .row .box-page .page-tag,
+#wrap .page7 .page3-box .row .box-page .page-tag li,
+#wrap .page7 .page3-box .row .box-page h2,
+#wrap .page7 .page3-box .row .box-page .contact-info,
+#wrap .page7 .page3-box .row .box-page .contact-info:hover,
+.sidebar-link,
+.sidebar-link:hover,
+.social-icons li a,
+.social-icons li a:hover,
+.social-btn,
+.social-btn:hover,
+.search-container,
+.search-container:hover,
+.engine-btn,
+.engine-btn:hover,
+.search-input,
+.search-input:focus,
+.search-btn,
+.search-btn:hover {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+#wrap .page7 .page3-box .row .box-page::before {
+  background: transparent !important;
 }
