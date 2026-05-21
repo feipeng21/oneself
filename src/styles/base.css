@@ -1339,9 +1339,10 @@ html {
   position: absolute;
   width: 30px;
   height: 60px;
+  z-index: 9999;
   border-radius: 30px;
   border: 1px solid #dadada;
-  bottom: 80px;
+  bottom: 40px;
   vertical-align: bottom;
   background-color: transparent;
   transition: all 1s;
